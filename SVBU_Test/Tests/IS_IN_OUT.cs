@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Xml.Linq;
 
@@ -18,12 +19,12 @@ namespace SVBU_Test.Tests
 
     class IS_IN_OUT
     {
-        public IS_IN_OUT(string Path)
+        public IS_IN_OUT(string Path, StreamWriter sw)
         {
             XDocument xdoc = XDocument.Load(Path);
             List<Elem> IS_OUT = new List<Elem>();
             List<string> IS_IN = new List<string>();
-            string IsSuccess = "УСПЕШНО";
+            bool IsError = false;
 
             #region Находим все элементы IS_OUT и IS_INP
 
@@ -41,7 +42,7 @@ namespace SVBU_Test.Tests
 
             #endregion
 
-            Console.WriteLine("Тест №1: Поиск входных сигналов по выходным - начался!"); Console.WriteLine();
+            sw.WriteLine("Тест №1: Поиск входных внутренних сигналов по выходным."); sw.WriteLine();
 
             #region Алгоритм проверки
 
@@ -49,14 +50,18 @@ namespace SVBU_Test.Tests
             {
                 if (!IS_IN.Contains(Out.NameIs.Split(new char[] { '#' }, StringSplitOptions.RemoveEmptyEntries)[0]))
                 {
-                    Console.WriteLine("Ошибка. Отсутствует входной внутренний сигнал: {0}. Выходной внутренний сигнал присутствует в алгоритме: {1}", Out.NameIs, Out.NameALGH);
-                    IsSuccess = "С ОШИБКАМИ";
+                    IsError = true;
+                    sw.WriteLine("\tОшибка. Отсутствует входной внутренний сигнал: {0}. Выходной внутренний сигнал присутствует в алгоритме: {1}", Out.NameIs, Out.NameALGH);
                 }
+            }
+            if (!IsError)
+            {
+                sw.WriteLine("\tОшибок нет!");
             }
 
             #endregion
 
-            Console.WriteLine(); Console.WriteLine("Тест №1: Поиск входных сигналов по выходным - закончился {0}!", IsSuccess);
+            sw.WriteLine();
         }
     }
 }
