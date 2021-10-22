@@ -40,6 +40,8 @@ namespace SVBU_Test
                 {
                     GetInfo(PathToXML, sw);
 
+                    ListRepeat Test1 = new ListRepeat(PathToXML, sw);
+
                     IS_IN_OUT Test4 = new IS_IN_OUT(PathToXML, sw);
 
                     DB_IN_OUT Test5 = new DB_IN_OUT(PathToXML, sw);
