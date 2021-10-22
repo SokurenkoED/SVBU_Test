@@ -25,7 +25,7 @@ namespace SVBU_Test.Tests
                 }
                 else
                 {
-                    sw.WriteLine("\tОшибка. Дублирование внутреннего входного сигнала (IS_OUT) {0}", Out.Attribute("name").Value);
+                    sw.WriteLine("\tОшибка. Дублирование внутреннего входного сигнала (IS_OUT): {0}", Out.Attribute("name").Value);
                 }
             }
             sw.WriteLine();
