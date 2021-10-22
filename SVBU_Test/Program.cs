@@ -40,9 +40,9 @@ namespace SVBU_Test
                 {
                     GetInfo(PathToXML, sw);
 
-                    IS_IN_OUT Test1 = new IS_IN_OUT(PathToXML, sw);
+                    IS_IN_OUT Test4 = new IS_IN_OUT(PathToXML, sw);
 
-                    DB_IN_OUT Test2 = new DB_IN_OUT(PathToXML, sw);
+                    DB_IN_OUT Test5 = new DB_IN_OUT(PathToXML, sw);
                 }
             }
             catch (FileNotFoundException)

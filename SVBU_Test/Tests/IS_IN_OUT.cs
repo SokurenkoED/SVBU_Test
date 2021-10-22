@@ -6,62 +6,94 @@ using System.Xml.Linq;
 
 namespace SVBU_Test.Tests
 {
-    class Elem
-    {
-        public Elem(string NameIs, string NameALGH)
-        {
-            this.NameIs = NameIs;
-            this.NameALGH = NameALGH;
-        }
-        public string NameIs { get; set; }
-        public string NameALGH { get; set; }
-    }
-
     class IS_IN_OUT
     {
         public IS_IN_OUT(string Path, StreamWriter sw)
         {
             XDocument xdoc = XDocument.Load(Path);
-            List<Elem> IS_OUT = new List<Elem>();
-            List<string> IS_IN = new List<string>();
-            bool IsError = false;
+            List<Elem> IS_OUT_Algh = new List<Elem>();
+            List<Elem> IS_In_Algh = new List<Elem>();
 
-            #region Находим все элементы IS_OUT и IS_INP
+            #region Находим все элементы IS_OUT и IS_INP и названия их алгоритмов
 
             foreach (XElement ALGHs in xdoc.Element("LAES-2").Element("VERSION").Elements("ALGORITHM"))
             {
                 foreach (var item in ALGHs.Descendants("IS_OUT"))
                 {
-                    IS_OUT.Add(new Elem(item.Attribute("name").Value, ALGHs.Attribute("name").Value));
+                    if (item.Attribute("type") != null)
+                    {
+                        IS_OUT_Algh.Add(new Elem(item.Attribute("name").Value, ALGHs.Attribute("name").Value, item.Attribute("type").Value));
+                    }
+                    else
+                    {
+                        IS_OUT_Algh.Add(new Elem(item.Attribute("name").Value, ALGHs.Attribute("name").Value, "0"));
+                    }
+                    
                 }
                 foreach (var item in ALGHs.Descendants("IS_INP"))
                 {
-                    IS_IN.Add(item.Attribute("name").Value.Split(new char[] { '#' }, StringSplitOptions.RemoveEmptyEntries)[0]);
+                    if (item.Attribute("type") != null)
+                    {
+                        IS_In_Algh.Add(new Elem(item.Attribute("name").Value, ALGHs.Attribute("name").Value, item.Attribute("type").Value));
+                    }
+                    else
+                    {
+                        IS_In_Algh.Add(new Elem(item.Attribute("name").Value, ALGHs.Attribute("name").Value, "0"));
+                    }
+                        
                 }
             }
 
             #endregion
 
-            sw.WriteLine("Тест №1: Поиск входных внутренних сигналов по выходным."); sw.WriteLine();
+            #region Алгоритм проверки TEST4a
 
-            #region Алгоритм проверки
+            sw.WriteLine("Тест №4a: Поиск входных внутренних сигналов (IS_OUT) по выходным (IS_INP)."); sw.WriteLine();
 
-            foreach (var Out in IS_OUT)
+            bool IsExsist = false;
+            foreach (var In in IS_In_Algh)
             {
-                if (!IS_IN.Contains(Out.NameIs.Split(new char[] { '#' }, StringSplitOptions.RemoveEmptyEntries)[0]))
+                foreach (var Out in IS_OUT_Algh)
                 {
-                    IsError = true;
-                    sw.WriteLine("\tОшибка. Отсутствует входной внутренний сигнал: {0}. Выходной внутренний сигнал присутствует в алгоритме: {1}", Out.NameIs, Out.NameALGH);
+                    if (In.NameIs.Split(new char[] { '#' }, StringSplitOptions.RemoveEmptyEntries)[0].Contains(Out.NameIs.Split(new char[] { '#' }, StringSplitOptions.RemoveEmptyEntries)[0]))
+                    {
+                        IsExsist = true;
+                    }
                 }
+                if (IsExsist == false && int.Parse(In.Type) != 1)
+                {
+                    sw.WriteLine("\tОшибка. Отсутствует входной внутренний сигнал (IS_OUT): {0}. Выходной внутренний сигнал (IS_INP) присутствует в алгоритме: {1}", In.NameIs.Split(new char[] { '#' }, StringSplitOptions.RemoveEmptyEntries)[0], In.NameALGH);
+                }
+                IsExsist = false;
             }
-            if (!IsError)
-            {
-                sw.WriteLine("\tОшибок нет!");
-            }
-
-            #endregion
 
             sw.WriteLine();
+
+            #endregion
+
+            #region Алгоритм проверки TEST4b
+
+            sw.WriteLine("Тест №4b: Поиск выходных внутренних сигналов (IS_INP) по входным (IS_OUT)."); sw.WriteLine();
+            foreach (var Out in IS_OUT_Algh)
+            {
+                foreach (var In in IS_In_Algh)
+                {
+                    if (In.NameIs.Split(new char[] { '#' }, StringSplitOptions.RemoveEmptyEntries)[0].Contains(Out.NameIs.Split(new char[] { '#' }, StringSplitOptions.RemoveEmptyEntries)[0]))
+                    {
+                        IsExsist = true;
+                    }
+                }
+                if (IsExsist == false)
+                {
+                    sw.WriteLine("\tПредупреждение. Отсутствует выходной внутренний сигнал (IS_INP): {0}. Входной внутренний сигнал (IS_OUT) присутствует в алгоритме: {1}", Out.NameIs.Split(new char[] { '#' }, StringSplitOptions.RemoveEmptyEntries)[0], Out.NameALGH);
+                }
+                IsExsist = false;
+            }
+
+            sw.WriteLine();
+
+            #endregion
+
         }
     }
 }
