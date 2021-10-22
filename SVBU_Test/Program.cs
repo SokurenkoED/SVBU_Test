@@ -42,6 +42,10 @@ namespace SVBU_Test
 
                     ListRepeat Test1 = new ListRepeat(PathToXML, sw);
 
+                    IS_OUT_Repeat Test2 = new IS_OUT_Repeat(PathToXML, sw);
+
+                    DB_OUT_Repeat Test3 = new DB_OUT_Repeat(PathToXML, sw);
+
                     IS_IN_OUT Test4 = new IS_IN_OUT(PathToXML, sw);
 
                     DB_IN_OUT Test5 = new DB_IN_OUT(PathToXML, sw);

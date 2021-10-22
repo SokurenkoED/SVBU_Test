@@ -15,7 +15,7 @@ namespace SVBU_Test.Tests
             XDocument xdoc = XDocument.Load(Path);
             HashSet<string> ALGHs = new HashSet<string>();
 
-            sw.WriteLine("Тест №1: Поиск дублированных алгоритмов."); sw.WriteLine();
+            sw.WriteLine("Тест №1: Поиск алгоритмов (ALGORITHM) с повторяющимися именами."); sw.WriteLine();
 
             foreach (XElement ALGH in xdoc.Element("LAES-2").Element("VERSION").Elements("ALGORITHM"))
             {
@@ -25,7 +25,7 @@ namespace SVBU_Test.Tests
                 }
                 else
                 {
-                    sw.WriteLine("\tОшибка. Дублирование листа {0}", ALGH.Attribute("name").Value);
+                    sw.WriteLine("\tОшибка. Дублирование алгоритма {0}", ALGH.Attribute("name").Value);
                 }
             }
             sw.WriteLine();
