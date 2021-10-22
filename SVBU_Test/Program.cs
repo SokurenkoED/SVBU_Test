@@ -49,6 +49,11 @@ namespace SVBU_Test
                     IS_IN_OUT Test4 = new IS_IN_OUT(PathToXML, sw);
 
                     DB_IN_OUT Test5 = new DB_IN_OUT(PathToXML, sw);
+
+
+
+
+                    FindElemWithType EndInfo = new FindElemWithType(PathToXML, sw);
                 }
             }
             catch (FileNotFoundException)
