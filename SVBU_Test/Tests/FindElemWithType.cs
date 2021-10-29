@@ -19,6 +19,7 @@ namespace SVBU_Test.Tests
 
             List<Elem> ElemWithTypeOne = new List<Elem>();
 
+            
             #region Поиск сигналов с датчиков
 
             foreach (XElement DB_INP in xdoc.Element("LAES-2").Element("VERSION").Elements("ALGORITHM").Descendants("DB_INP"))
@@ -35,6 +36,15 @@ namespace SVBU_Test.Tests
                     ElemWithTypeOne.Add(new Elem(DB_INP.Attribute("name").Value, " ", DB_INP.Attribute("type").Value));
                 }
             }
+
+            #endregion
+
+            #region Соритровка массива
+
+            ElemWithTypeOne.Sort((p1, p2) =>
+            {
+                return p1.NameIs.CompareTo(p2.NameIs);
+            });
 
             #endregion
 
@@ -63,6 +73,15 @@ namespace SVBU_Test.Tests
                     ElemWithTypeTwo.Add(new Elem(DB_INP.Attribute("name").Value, " ", "2"));
                 }
             }
+
+            #endregion
+
+            #region Соритровка массива
+
+            ElemWithTypeTwo.Sort((p1, p2) =>
+            {
+                return p1.NameIs.CompareTo(p2.NameIs);
+            });
 
             #endregion
 
