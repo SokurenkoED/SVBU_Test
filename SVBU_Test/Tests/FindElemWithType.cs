@@ -50,11 +50,12 @@ namespace SVBU_Test.Tests
 
             #region Запись датчиков
 
-            sw.WriteLine("Сигналы с датчиков:"); sw.WriteLine();
+            sw.WriteLine($"Сигналы с датчиков ({ElemWithTypeOne.Count}):"); sw.WriteLine();
             foreach (var Sens in ElemWithTypeOne)
             {
                 sw.WriteLine("\t"+Sens.NameIs);
             }
+            sw.WriteLine();
 
             #endregion
 
@@ -87,7 +88,7 @@ namespace SVBU_Test.Tests
 
             #region Запись сигналов с List_IC.txt
 
-            sw.WriteLine("Сигналы с List_IC:"); sw.WriteLine();
+            sw.WriteLine($"Сигналы с List_IC ({ElemWithTypeTwo.Count}):"); sw.WriteLine();
             foreach (var Elem in ElemWithTypeTwo)
             {
                 sw.WriteLine("\t" + Elem.NameIs);

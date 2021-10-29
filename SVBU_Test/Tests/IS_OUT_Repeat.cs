@@ -14,6 +14,7 @@ namespace SVBU_Test.Tests
         {
             XDocument xdoc = XDocument.Load(Path);
             HashSet<string> IS_OUT = new HashSet<string>();
+            int CountErr = 0;
 
             sw.WriteLine("Тест №2: Поиск внутренних входных сигналов (IS_OUT) с повторяющимися именами."); sw.WriteLine();
 
@@ -25,9 +26,12 @@ namespace SVBU_Test.Tests
                 }
                 else
                 {
+                    CountErr++;
                     sw.WriteLine("\tОшибка. Дублирование внутреннего входного сигнала (IS_OUT): {0}", Out.Attribute("name").Value);
                 }
             }
+            sw.WriteLine();
+            sw.WriteLine($"Количество ошибок {CountErr}.");
             sw.WriteLine();
         }
     }

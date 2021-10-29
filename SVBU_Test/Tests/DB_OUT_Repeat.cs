@@ -14,6 +14,7 @@ namespace SVBU_Test.Tests
         {
             XDocument xdoc = XDocument.Load(Path);
             HashSet<string> DB_OUT = new HashSet<string>();
+            int CountErr = 0;
 
             sw.WriteLine("Тест №3: Поиск входных сигналов БД (DB_OUT) с повторяющимися именами."); sw.WriteLine();
 
@@ -25,9 +26,12 @@ namespace SVBU_Test.Tests
                 }
                 else
                 {
+                    CountErr++;
                     sw.WriteLine("\tОшибка. Дублирование входного сигнала БД (DB_OUT): {0}", Out.Attribute("name").Value);
                 }
             }
+            sw.WriteLine();
+            sw.WriteLine($"Количество ошибок {CountErr}.");
             sw.WriteLine();
         }
     }

@@ -36,7 +36,7 @@ namespace SVBU_Test
 
             try
             {
-                using (StreamWriter sw = new StreamWriter("report/report.txt", false, Encoding.Default))
+                using (StreamWriter sw = new StreamWriter($"report/report_{DateTime.Now.ToString("yyyy/MM/dd").Replace(".","_")}.txt", false, Encoding.Default))
                 {
                     GetInfo(PathToXML, sw);
 

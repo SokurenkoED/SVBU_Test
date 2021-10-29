@@ -15,6 +15,7 @@ namespace SVBU_Test.Tests
             XDocument xdoc = XDocument.Load(Path);
             List<Elem> DB_OUT_Algh = new List<Elem>();
             List<Elem> DB_In_Algh = new List<Elem>();
+            int CountErr = 0;
 
             #region Находим все элементы DB_OUT и DB_INP и названия их алгоритмов
 
@@ -64,17 +65,21 @@ namespace SVBU_Test.Tests
                 }
                 if (IsExsist == false && int.Parse(In.Type) != 1)
                 {
+                    CountErr++;
                     sw.WriteLine("\tОшибка. Отсутствует входной сигнал БД (DB_OUT): {0}. Выходной сигнал БД (DB_INP) присутствует в алгоритме: {1}", In.NameIs.Split(new char[] { '#' }, StringSplitOptions.RemoveEmptyEntries)[0], In.NameALGH);
                 }
                 IsExsist = false;
             }
 
             sw.WriteLine();
+            sw.WriteLine($"Количество ошибок {CountErr}.");
+            sw.WriteLine();
 
             #endregion
 
             #region Алгоритм проверки TEST5b
 
+            CountErr = 0;
             sw.WriteLine("Тест №5b: Поиск входных сигналов БД (DB_INP) по входным (DB_OUT)."); sw.WriteLine();
             foreach (var Out in DB_OUT_Algh)
             {
@@ -87,11 +92,14 @@ namespace SVBU_Test.Tests
                 }
                 if (IsExsist == false)
                 {
+                    CountErr++;
                     sw.WriteLine("\tПредупреждение. Отсутствует выходной сигнал БД (DB_INP): {0}. Входной сигнал БД (DB_OUT) присутствует в алгоритме: {1}", Out.NameIs.Split(new char[] { '#' }, StringSplitOptions.RemoveEmptyEntries)[0], Out.NameALGH);
                 }
                 IsExsist = false;
             }
 
+            sw.WriteLine();
+            sw.WriteLine($"Количество предупреждений {CountErr}.");
             sw.WriteLine();
 
             #endregion

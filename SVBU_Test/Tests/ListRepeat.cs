@@ -14,6 +14,7 @@ namespace SVBU_Test.Tests
         {
             XDocument xdoc = XDocument.Load(Path);
             HashSet<string> ALGHs = new HashSet<string>();
+            int CountErr = 0;
 
             sw.WriteLine("Тест №1: Поиск алгоритмов (ALGORITHM) с повторяющимися именами."); sw.WriteLine();
 
@@ -25,9 +26,12 @@ namespace SVBU_Test.Tests
                 }
                 else
                 {
+                    CountErr++;
                     sw.WriteLine("\tОшибка. Дублирование алгоритма {0}", ALGH.Attribute("name").Value);
                 }
             }
+            sw.WriteLine();
+            sw.WriteLine($"Количество ошибок {CountErr}.");
             sw.WriteLine();
         }
     }

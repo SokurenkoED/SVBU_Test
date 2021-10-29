@@ -13,6 +13,7 @@ namespace SVBU_Test.Tests
             XDocument xdoc = XDocument.Load(Path);
             List<Elem> IS_OUT_Algh = new List<Elem>();
             List<Elem> IS_In_Algh = new List<Elem>();
+            int CountErr = 0;
 
             #region Находим все элементы IS_OUT и IS_INP и названия их алгоритмов
 
@@ -62,17 +63,21 @@ namespace SVBU_Test.Tests
                 }
                 if (IsExsist == false && int.Parse(In.Type) != 1)
                 {
+                    CountErr++;
                     sw.WriteLine("\tОшибка. Отсутствует входной внутренний сигнал (IS_OUT): {0}. Выходной внутренний сигнал (IS_INP) присутствует в алгоритме: {1}", In.NameIs.Split(new char[] { '#' }, StringSplitOptions.RemoveEmptyEntries)[0], In.NameALGH);
                 }
                 IsExsist = false;
             }
 
             sw.WriteLine();
+            sw.WriteLine($"Количество ошибок {CountErr}.");
+            sw.WriteLine();
 
             #endregion
 
             #region Алгоритм проверки TEST4b
 
+            CountErr = 0;
             sw.WriteLine("Тест №4b: Поиск выходных внутренних сигналов (IS_INP) по входным (IS_OUT)."); sw.WriteLine();
             foreach (var Out in IS_OUT_Algh)
             {
@@ -85,11 +90,14 @@ namespace SVBU_Test.Tests
                 }
                 if (IsExsist == false)
                 {
+                    CountErr++;
                     sw.WriteLine("\tПредупреждение. Отсутствует выходной внутренний сигнал (IS_INP): {0}. Входной внутренний сигнал (IS_OUT) присутствует в алгоритме: {1}", Out.NameIs.Split(new char[] { '#' }, StringSplitOptions.RemoveEmptyEntries)[0], Out.NameALGH);
                 }
                 IsExsist = false;
             }
 
+            sw.WriteLine();
+            sw.WriteLine($"Количество предупреждений {CountErr}.");
             sw.WriteLine();
 
             #endregion
